@@ -1,25 +1,37 @@
-import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import React, {Suspense, lazy} from 'react';
+import { createBrowserRouter, RouterProvider, BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {Space} from 'antd';
+
+const Login = lazy(() => import('./login/Login'));
+const Register = lazy(() => import('./register/Register'));
+
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element:
+            <Space direction="vertical" size="middle" style={{ display: 'flex', alignItems: 'center' }}>
+                <Login style={{width: '600px', }}>
+                </Login>
+            </Space>,
+    },
+    {
+        path: "/register",
+        element:
+            <Space direction="vertical" size="middle" style={{ display: 'flex', alignItems: 'center' }}>
+                <Register style={{width: '600px', }}>
+                </Register>
+            </Space>,
+    },
+]);
+
+const App: React.FC = () => (
+    <React.StrictMode>
+        <Suspense fallback={<div>Loading... </div>}>
+            <RouterProvider router={router} />
+        </Suspense>
+    </React.StrictMode>
+);
 
 export default App;
